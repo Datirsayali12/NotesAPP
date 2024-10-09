@@ -1,7 +1,7 @@
 import spacy
 import re
 import openai
-
+import os
 nlp = spacy.load("en_core_web_sm")
 
 
@@ -30,10 +30,13 @@ def extract_entities(text):
     return entities
 
 
+openai_api_key = os.getenv('OPENAI_API_KEY')
+
+
 def send_message(message_log, temp=0.4):
     print("openai started")
     # Use OpenAI's ChatCompletion API to get the chatbot's response
-    openai.api_key = OPENAI_KEY
+    openai.api_key = openai_api_key
     openai.api_base = "https://api.openai.com/v1"
     openai.api_type = "open_ai"
     openai.api_version = None
