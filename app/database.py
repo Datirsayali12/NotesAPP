@@ -5,13 +5,15 @@ from sqlalchemy.orm import sessionmaker
 from .models import BASE
 
 
-db_user: str='postgres'
-db_port: str=5432
-db_host: str='localhost'
-db_password: str="root"
+db_user = 'postgres'
+db_password = 'root'
+db_host = 'db'
+# db_host='localhost'
+db_port = 5432
+db_name = 'to-do-app'
 
-
-uri:str=f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/to-do-app"
+uri = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+engine = create_engine(uri)
 
 # Retrieve database connection details from environment variables
 # db_user: str = os.getenv('DB_USER', 'postgres')  # Default to 'postgres'

@@ -1,5 +1,4 @@
 version: '3.8'
-
 services:
   fastapi:
     build: .
@@ -17,6 +16,8 @@ services:
       - redis
     volumes:
       - .:/app
+    networks:
+      - notesapp_network
 
   db:
     image: postgres:13
@@ -29,12 +30,34 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    networks:
+      - notesapp_network
 
   redis:
     image: redis:alpine
     container_name: notesapp_redis
     ports:
       - "6379:6379"
+    networks:
+      - notesapp_network
+
+  streamlit:
+    image: aminehy/docker-streamlit-app:latest
+    container_name: notesapp_streamlit
+    ports:
+      - "8501:8501"
+    volumes:
+      - .:/app
+    command: streamlit run appui.py
+    depends_on:
+      - fastapi
+      - db
+      - redis
+    networks:
+      - notesapp_network
 
 volumes:
   postgres_data:
+
+networks:
+  notesapp_network:
